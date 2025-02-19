@@ -1,35 +1,69 @@
-import * as React from 'react';
-import { Html, Head, Body, Container, Heading, Text, Link } from '@react-email/components';
+// emergencyEmail.js
+import { Resend } from 'resend';
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-const EmergencyEmail = ({ emergency }) => {
-  return (
-    <Html>
-      <Head />
-      <Body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f4f4', padding: '20px' }}>
-        <Container style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '10px' }}>
-          <Heading as="h2" style={{ color: '#d9534f' }}>🚨 Emergency Alert!</Heading>
-          <Text>Hello,</Text>
-          <Text>The following emergency has been reported by <strong>{emergency.userId}</strong>:</Text>
-
-          <Text><strong>Location:</strong> {emergency.address}</Text>
-          <Text><strong>Coordinates:</strong> {emergency.location.latitude}, {emergency.location.longitude}</Text>
-          <Text><strong>Battery Level:</strong> {emergency.batteryLevel}%</Text>
-          <Text><strong>Network Status:</strong> {emergency.networkInfo.isConnected ? 'Connected' : 'Disconnected'}</Text>
-          <Text><strong>Fall Detected:</strong> {emergency.fallDetected ? 'Yes' : 'No'}</Text>
-          <Text><strong>Impact Detected:</strong> {emergency.impactDetected ? 'Yes' : 'No'}</Text>
-          <Text><strong>Altitude Change:</strong> {emergency.altitudeChange ? 'Yes' : 'No'}</Text>
-
-          <Text>You can listen to the emergency recording here:</Text>
-          <Link href={emergency.recordingUri} style={{ color: '#d9534f', fontWeight: 'bold' }}>
-            Listen to Recording
-          </Link>
-
-          <Text>Please take immediate action if necessary.</Text>
-          <Text>Stay Safe.</Text>
-        </Container>
-      </Body>
-    </Html>
-  );
+export const sendEmergencyEmail = async (email, emergency) => {
+  try {
+    // Create Google Maps link from coordinates
+    const googleMapsLink = `https://www.google.com/maps?q=${emergency.location.latitude},${emergency.location.longitude}`;
+    
+    const data = await resend.emails.send({
+      from: 'Safe9ja <no-reply@safe9ja.com>',
+      to: email,
+      subject: '🚨 URGENT: Emergency Situation Reported!',
+      html: `
+        <html>
+          <head>
+            <meta charSet="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          </head>
+          <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+            <div style="background-color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 0 auto; border-left: 5px solid #d9534f;">
+              <h2 style="color: #d9534f;">🚨 URGENT: Emergency Situation Reported!</h2>
+              <p>An emergency situation has been detected for user <strong>${emergency.userName}</strong>.</p>
+              
+              <div style="background-color: #ffebee; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <h3 style="color: #d32f2f; margin-top: 0;">Emergency Details</h3>
+                <p><strong>Location:</strong> ${emergency.address}</p>
+                <p><strong>View on Map:</strong> <a href="${googleMapsLink}" style="background-color: #d32f2f; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; display: inline-block;">Open in Google Maps</a></p>
+                
+                <h4 style="margin-bottom: 5px;">Situation Assessment:</h4>
+                <ul style="margin-top: 5px;">
+                  ${emergency.fallDetected ? '<li><span style="color: #d32f2f;">⚠️ Fall detected</span></li>' : ''}
+                  ${emergency.impactDetected ? '<li><span style="color: #d32f2f;">⚠️ Impact detected</span></li>' : ''}
+                  ${emergency.altitudeChange ? '<li><span style="color: #d32f2f;">⚠️ Sudden altitude change detected</span></li>' : ''}
+                </ul>
+                
+                <h4 style="margin-bottom: 5px;">Device Status:</h4>
+                <p><strong>Battery:</strong> ${emergency.batteryLevel}% ${emergency.batteryLevel < 20 ? '(Low)' : ''}</p>
+                <p><strong>Network:</strong> ${emergency.networkInfo.isConnected ? 'Connected' : '<span style="color: #d32f2f;">Disconnected</span>'}</p>
+              </div>
+              
+              <div style="margin-top: 20px;">
+                <p><strong>Emergency Recording:</strong></p>
+                <div style="text-align: center; margin: 15px 0;">
+                  <a href="${emergency.recordingUri}" style="background-color: #424242; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; display: inline-block;">
+                    <span style="vertical-align: middle;">🔊</span> Listen to Emergency Recording
+                  </a>
+                </div>
+              </div>
+              
+              <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee;">
+                <p><strong>IMPORTANT:</strong> This is an automated emergency alert. Please assess the situation and take appropriate action immediately.</p>
+                <p>Contact emergency services if you cannot reach the user or if the situation appears serious.</p>
+              </div>
+              
+              <p style="margin-top: 20px; font-size: 14px; color: #666;">This alert was generated by Safe9ja Emergency Response System.</p>
+            </div>
+          </body>
+        </html>
+      `,
+    });
+    
+    console.log(`Emergency alert email sent to ${email}`);
+    return data;
+  } catch (error) {
+    console.error('Error sending emergency email:', error);
+    throw new Error('Emergency email sending failed');
+  }
 };
-
-export default EmergencyEmail;

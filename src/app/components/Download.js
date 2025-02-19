@@ -5,9 +5,9 @@ const Download = () => {
     <section className="py-24 bg-gradient-to-br from-green-600 to-green-800 text-white" id="download">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">Download Save9ja Today</h2>
+          <h2 className="text-4xl font-bold mb-4">Download Safe9ja Today</h2>
           <p className="text-xl text-green-100 mb-8">
-            Join millions of Nigerians who trust Save9ja for their personal safety
+            Join millions of Nigerians who trust Safe9ja for their personal safety
           </p>
         </div>
 

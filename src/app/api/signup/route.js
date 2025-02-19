@@ -1,14 +1,11 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import getDb from '@/lib/db';
-import crypto from 'crypto';
-import { sendEmail } from '@/lib/email'; // Resend or email service integration
+import {sendEmail}  from '@/lib/email';
 
 export const POST = async (req) => {
   try {
     const { firstName, lastName, email, phone, password } = await req.json();
 
-    // Input validation
     if (!firstName || !lastName || !email || !phone || !password) {
       return new Response(JSON.stringify({ error: 'All fields are required.' }), { status: 400 });
     }
@@ -24,20 +21,23 @@ export const POST = async (req) => {
 
     const db = await getDb();
     const users = db.collection('users');
+    const otpCollection = db.collection('otp_verifications');
 
-    // Check if the user already exists
+    // Check if user already exists
     const existingUser = await users.findOne({ email });
     if (existingUser) {
       return new Response(JSON.stringify({ error: 'User already exists.' }), { status: 409 });
     }
 
-    // Hash the password
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Generate email verification token
-    const emailVerificationToken = crypto.randomBytes(32).toString('hex');
+    // Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpHash = await bcrypt.hash(otp, 10);
+    const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes expiry
 
-    // Save user to database
+    // Save user to DB (unverified)
     const newUser = {
       firstName,
       lastName,
@@ -45,38 +45,33 @@ export const POST = async (req) => {
       phone,
       password: hashedPassword,
       emailVerified: false,
-      emailVerificationToken,
       createdAt: new Date(),
     };
     const result = await users.insertOne(newUser);
 
-    // Generate JWT token for immediate use
-    const token = jwt.sign(
-      { userId: result.insertedId, email: newUser.email },
-      process.env.JWT_SECRET,
-      { expiresIn: '10000h' }
-    );
-
-    // Send verification email
-    const verificationUrl = `http://localhost:3000/api/verify?token=${emailVerificationToken}`;
-    await sendEmail({
-      to: email,
-      subject: 'Verify Your Email Address',
-      html: `<p>Hi ${firstName},</p>
-             <p>Please verify your email by clicking the link below:</p>
-             <p><a href="${verificationUrl}">Verify Email</a></p>
-             <p>If you did not sign up, please ignore this email.</p>`,
+    // Save OTP to DB
+    await otpCollection.insertOne({
+      userId: result.insertedId,
+      otpHash,
+      expiresAt: otpExpiresAt,
+      used: false,
     });
-    console.log('Verification email sent to:', verificationUrl);
+
+    // Send OTP email
+    try { // Wrap sendEmail in a try/catch for more robust error handling
+      await sendEmail(email, otp);  // Corrected: Pass email and OTP separately
+    } catch (emailError) {
+      console.error("Error sending email from route.js:", emailError);
+      return new Response(JSON.stringify({ error: 'Failed to send OTP email.' }), { status: 500 });
+    }
+
     return new Response(
-      JSON.stringify({
-        message: 'User created successfully. Please verify your email.',
-        token,
-      }),
+      JSON.stringify({ message: 'OTP sent to your email.' }),
       { status: 201 }
     );
+
   } catch (error) {
-    console.error('Error during signup:', error);
+    console.error('Signup Error:', error);
     return new Response(JSON.stringify({ error: 'Internal server error.' }), { status: 500 });
   }
 };

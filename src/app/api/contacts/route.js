@@ -36,7 +36,7 @@ export async function POST(req) {
       return new Response(JSON.stringify({ error: 'You can only add up to 3 contacts' }), { status: 400 });
     }
 
-    // Save the contact using MongoDB syntax
+    // Safe the contact using MongoDB syntax
     const newContact = await contacts.insertOne({
       userId,
       name,

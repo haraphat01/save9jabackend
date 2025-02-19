@@ -1,19 +1,21 @@
+// route.js
+
 import jwt from 'jsonwebtoken';
 import getDb from '@/lib/db';
 import { createClient } from '@supabase/supabase-js';
 import { Buffer } from 'buffer';
-import { Resend } from 'resend';
-import EmergencyEmail from '../../components/EmergencyEmail';
-import React from 'react';
+import { Resend } from 'resend'; 
+import { sendEmergencyEmail } from '../../components/EmergencyEmail'; // Import the email sending function
 
 const SECRET_KEY = process.env.JWT_SECRET;
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Initialize Supabase client
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY
 );
+
+const resend = new Resend(process.env.RESEND_API_KEY); // Initialize Resend with API key
 
 export async function POST(req) {
     const authToken = req.headers.get('Authorization')?.split(' ')[1];
@@ -30,15 +32,15 @@ export async function POST(req) {
         const body = await req.json();
         console.log('Received Data:', body);
 
-        const { 
-            location, 
-            address, 
-            batteryLevel, 
-            networkInfo, 
-            fallDetected, 
-            altitudeChange, 
-            impactDetected, 
-            recording  // Expect base64 string instead of URI
+        const {
+            location,
+            address,
+            batteryLevel,
+            networkInfo,
+            fallDetected,
+            altitudeChange,
+            impactDetected,
+            recording
         } = body;
 
         // Convert base64 to buffer
@@ -71,10 +73,19 @@ export async function POST(req) {
         const db = await getDb();
         const emergencyCollection = db.collection('emergencies');
         const contactsCollection = db.collection('contacts');
+        const usersCollection = db.collection('users');
+
+        // Fetch user details to get the name
+        const user = await usersCollection.findOne({ _id: decoded.userId });
+        
+        // Define userName - use a default if user not found
+        const userName = user?.name || 'Unknown User';
+        console.log('User found:', !!user, 'Name:', userName);
 
         // Create emergency record
         const emergencyData = {
             userId: decoded.userId,
+            userName: userName,
             timestamp: new Date(),
             location: {
                 latitude: location.latitude,
@@ -97,25 +108,31 @@ export async function POST(req) {
         // Insert into database
         const result = await emergencyCollection.insertOne(emergencyData);
 
-        // Fetch user's contacts from `contacts` collection
+        // Fetch user's contacts
         const contacts = await contactsCollection.find({ userId: decoded.userId }).toArray();
 
         if (!contacts.length) {
             console.error('No emergency contacts found for user:', decoded.userId);
             return new Response(
-                JSON.stringify({ error: 'No emergency contacts found' }),
+                JSON.stringify({ 
+                    error: 'No emergency contacts found',
+                    emergencyId: result.insertedId,
+                    audioUrl: publicUrl
+                }),
                 { status: 400, headers: { 'Content-Type': 'application/json' } }
             );
         }
 
-        // Send email notifications to all contacts
-        const emailPromises = contacts.map(contact => {
-            return resend.emails.send({
-                from: 'alerts@yourdomain.com',
-                to: contact.email,
-                subject: '🚨 Emergency Alert - Immediate Attention Required',
-                react: EmergencyEmail({ emergency: emergencyData }),
-            });
+        // Send email notifications using the sendEmergencyEmail function
+        const emailPromises = contacts.map(async (contact) => {
+            try {
+                const data = await sendEmergencyEmail(contact.email, emergencyData);
+                console.log('Email sent to:', contact.email, 'Resend data:', data);
+                return data; // Return the Resend data for tracking
+            } catch (error) {
+                console.error('Failed to send email to', contact.email, 'Error:', error);
+                throw error; // Re-throw the error to be caught by Promise.all
+            }
         });
 
         try {
@@ -126,12 +143,12 @@ export async function POST(req) {
         }
 
         return new Response(
-            JSON.stringify({ 
+            JSON.stringify({
                 message: 'Emergency data saved successfully',
                 emergencyId: result.insertedId,
                 audioUrl: publicUrl
-            }), 
-            { 
+            }),
+            {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' }
             }
@@ -140,11 +157,11 @@ export async function POST(req) {
     } catch (error) {
         console.error('Error:', error);
         return new Response(
-            JSON.stringify({ 
+            JSON.stringify({
                 error: 'Failed to process emergency data',
-                details: error.message 
-            }), 
-            { 
+                details: error.message
+            }),
+            {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' }
             }

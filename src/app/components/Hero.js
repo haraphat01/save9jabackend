@@ -70,7 +70,7 @@ const Hero = () => {
             <div className="relative z-10 transform hover:scale-105 transition-transform duration-300">
               <img 
                 src="/api/placeholder/300/600" 
-                alt="Save9ja App Interface" 
+                alt="Safe9ja App Interface" 
                 className="rounded-3xl shadow-2xl border-8 border-black/80"
               />
               

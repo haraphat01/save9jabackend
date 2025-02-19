@@ -38,7 +38,7 @@ const Features = () => {
             Protecting What Matters Most
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Save9ja provides essential features designed to keep you and your loved ones safe in emergency situations.
+            Safe9ja provides essential features designed to keep you and your loved ones safe in emergency situations.
           </p>
         </div>
 

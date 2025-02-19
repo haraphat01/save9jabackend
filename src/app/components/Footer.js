@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <h3 className="text-2xl font-bold mb-4">Save9ja</h3>
+            <h3 className="text-2xl font-bold mb-4">Safe9ja</h3>
             <p className="text-gray-400">Empowering Nigerians with immediate emergency response solutions.</p>
           </div>
           
@@ -29,7 +29,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2 text-gray-400">
                 <Mail size={16} />
-                <span>support@save9ja.com</span>
+                <span>support@Safe9ja.com</span>
               </li>
             </ul>
           </div>
@@ -53,7 +53,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              &copy; {new Date().getFullYear()} Save9ja. All Rights Reserved.
+              &copy; {new Date().getFullYear()} Safe9ja. All Rights Reserved.
             </p>
             <div className="flex space-x-6">
               <a href="#" className="text-gray-400 hover:text-white text-sm">Privacy Policy</a>
