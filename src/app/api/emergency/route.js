@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import getDb from '@/lib/db';
 import { createClient } from '@supabase/supabase-js';
 import { Buffer } from 'buffer';
-import { Resend } from 'resend'; 
 import { sendEmergencyEmail } from '../../components/EmergencyEmail'; // Import the email sending function
 
 const SECRET_KEY = process.env.JWT_SECRET;
@@ -15,7 +14,6 @@ const supabase = createClient(
     process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-const resend = new Resend(process.env.RESEND_API_KEY); // Initialize Resend with API key
 
 export async function POST(req) {
     const authToken = req.headers.get('Authorization')?.split(' ')[1];
@@ -51,13 +49,13 @@ export async function POST(req) {
         const filename = `${decoded.userId}/${timestamp}.m4a`;
 
         // Upload to Supabase Storage
-        const { data: uploadData, error: uploadError } = await supabase.storage
-            .from('emergency-recordings')
-            .upload(filename, audioBuffer, {
-                contentType: 'audio/m4a',
-                cacheControl: '3600',
-                upsert: false
-            });
+        const { error: uploadError } = await supabase.storage
+        .from('emergency-recordings')
+        .upload(filename, audioBuffer, {
+            contentType: 'audio/m4a',
+            cacheControl: '3600',
+            upsert: false
+        });
 
         if (uploadError) {
             console.error('Upload Error:', uploadError);

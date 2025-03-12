@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import getDb from '@/lib/db';
-import {sendEmail}  from '@/lib/email';
+import { sendEmail } from '@/lib/email';
 
 export const POST = async (req) => {
   try {
@@ -36,7 +36,7 @@ export const POST = async (req) => {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpHash = await bcrypt.hash(otp, 10);
     const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes expiry
-
+    console.log(otp)
     // Save user to DB (unverified)
     const newUser = {
       firstName,

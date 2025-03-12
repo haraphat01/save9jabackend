@@ -1,6 +1,7 @@
+/* eslint-disable react/no-unescaped-entities */
+
 import * as React from 'react';
 import { Html } from '@react-email/html';
-import { Button } from '@react-email/button';
 import { Text } from '@react-email/text';
 import { Section } from '@react-email/section';
 import { Container } from '@react-email/container';
@@ -19,7 +20,7 @@ export default function OTPEmail(props) {
           </Text>
           <Text style={otpCode}>{otp}</Text>
           <Text style={paragraph}>
-            This code will expire in 10 minutes. If you didn't request this code, 
+            This code will expire in 10 minutes. If you didn&apos;t request this code, 
             please ignore this email.
           </Text>
         </Container>

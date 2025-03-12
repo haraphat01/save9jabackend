@@ -10,8 +10,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Safe9ja - Your Safety, Our Mission</title>
-        <meta name="description" content="Safe9ja is a mobile app for emergency alerts and safety in Nigeria." />
+        <title>SafeSchool - Your Safety, Our Mission</title>
+        <meta name="description" content="SafeSchool is a mobile app for emergency alerts and safety in Nigeria." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

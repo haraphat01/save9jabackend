@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Shield, ArrowRight, AlertTriangle, MapPin } from 'lucide-react';
 
 const Hero = () => {
@@ -21,7 +22,7 @@ const Hero = () => {
           <div className="flex-1 text-white pt-8 lg:pt-0">
             <div className="inline-flex items-center bg-green-500/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
               <Shield size={20} className="text-green-400 mr-2" />
-              <span className="text-green-200 text-sm">Nigeria's #1 Safety App</span>
+              <span className="text-green-200 text-sm">Nigeria&apos;s #1 Safety App</span>
             </div>
             
             <h1 className="text-5xl lg:text-7xl font-bold mb-6 leading-tight">
@@ -68,9 +69,11 @@ const Hero = () => {
           {/* Right Column - App Preview */}
           <div className="flex-1 relative">
             <div className="relative z-10 transform hover:scale-105 transition-transform duration-300">
-              <img 
+              <Image 
                 src="/api/placeholder/300/600" 
-                alt="Safe9ja App Interface" 
+                alt="SafeSchool App Interface" 
+                width={300}
+                height={600}
                 className="rounded-3xl shadow-2xl border-8 border-black/80"
               />
               

@@ -40,11 +40,12 @@ export const POST = async (req) => {
       JSON.stringify({
         message: 'Login successful.',
         token,
-       
+
       }),
       { status: 200 }
     );
   } catch (error) {
+    console.error('Login Error:', error); // Log the actual error
     return new Response(JSON.stringify({ error: 'Internal server error.' }), { status: 500 });
   }
 };

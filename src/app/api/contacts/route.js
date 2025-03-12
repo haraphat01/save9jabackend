@@ -80,8 +80,9 @@ export async function DELETE(req) {
   try {
     const decoded = jwt.verify(authToken, SECRET_KEY);
     userId = decoded.userId;
-  } catch (error) {
-    return new Response(JSON.stringify({ error: 'Unauthorized: Invalid token' }), { status: 401 });
+  }catch (_error) {
+    console.error('Error fetching contacts:', _error.message);
+    return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
   }
 
   const { searchParams } = new URL(req.url);

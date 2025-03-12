@@ -14,10 +14,10 @@ const About = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            About Safe9ja
+            About SafeSchool
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Safe9ja is committed to revolutionizing personal safety in Nigeria. Our mission is to provide every Nigerian with quick access to emergency services and a reliable connection to law enforcement.
+            SafeSchool is committed to revolutionizing personal safety in Nigeria. Our mission is to provide every Nigerian with quick access to emergency services and a reliable connection to law enforcement.
           </p>
         </div>
 
