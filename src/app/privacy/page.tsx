@@ -5,7 +5,7 @@ const PrivacyPolicy = () => (
     <h1 className="text-2xl font-bold mb-4">Privacy Policy</h1>
     <p>Last updated: 12/3/2025</p>
     <p className="mt-4">
-      Save9ja is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information.
+      SafeAlertis committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information.
     </p>
     <h2 className="text-xl font-semibold mt-4">Information We Collect</h2>
     <p>We collect personal data such as name, email, location, and emergency contacts to provide our SOS emergency services.</p>

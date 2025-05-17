@@ -6,12 +6,12 @@ import profile from '../../../public/profile.jpg';
 
 const Download = () => {
   return (
-    <section className="py-24 bg-gradient-to-br from-green-600 to-green-800 text-white" id="download">
+    <section className="py-24 bg-gradient-to-br from-slate-800 to-slate-900 text-white" id="download">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">Download SafeSchool Today</h2>
-          <p className="text-xl text-green-100 mb-8">
-            Join millions of Nigerians who trust SafeSchool for their personal safety
+          <h2 className="text-4xl font-bold mb-4">Download SafeAlert Today</h2>
+          <p className="text-xl text-slate-300 mb-8">
+            Join millions of users worldwide who trust SafeAlert for their personal safety
           </p>
         </div>
         <div className="flex flex-col md:flex-row justify-center items-center gap-6">
@@ -43,7 +43,7 @@ const Download = () => {
           </a>
         </div>
         <div className="mt-16 text-center">
-          <p className="text-green-100 mb-4">Available across all devices</p>
+          <p className="text-slate-300 mb-4">Available across all devices</p>
           <div className="flex justify-center gap-8">
             <div className="w-[140px] h-[280px] rounded-xl shadow-lg overflow-hidden relative">
               <Image 
