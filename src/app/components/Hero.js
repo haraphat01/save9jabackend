@@ -31,8 +31,23 @@ const Hero = () => {
             </h1>
             
             <p className="text-xl text-gray-300 mb-8 max-w-xl">
-              Instant emergency alerts, real-time tracking, and direct police contact – all in one app. Because every second counts when it comes to your safety.
+              In today's world, your safety can't wait. SafeAlert provides instant emergency response, real-time tracking, and direct police contact – all in one powerful app. Because when seconds count, you need a reliable safety net.
             </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                <div className="text-2xl font-bold text-green-400">60%</div>
+                <div className="text-gray-300 text-sm">Faster Emergency Response</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                <div className="text-2xl font-bold text-green-400">24/7</div>
+                <div className="text-gray-300 text-sm">Active Monitoring</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                <div className="text-2xl font-bold text-green-400">98%</div>
+                <div className="text-gray-300 text-sm">User Satisfaction</div>
+              </div>
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
               <a 

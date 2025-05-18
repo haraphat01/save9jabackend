@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Header from '../app/components/Header';
 import Hero from '../app/components/Hero';
 import Features from '../app/components/Features';
+import Pricing from '../app/components/Pricing';
 import Download from '../app/components/Download';
 import About from '../app/components/About';
 import Footer from '../app/components/Footer';
@@ -18,6 +19,7 @@ export default function Home() {
       <Header />
       <Hero />
       <Features />
+      <Pricing />
       <Download />
       <About />
       <Footer />
