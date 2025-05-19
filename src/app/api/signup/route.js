@@ -45,7 +45,10 @@ export const POST = async (req) => {
       phone,
       password: hashedPassword,
       emailVerified: false,
+      subscription_status: 'free',
+      subscription_type: 'free',
       createdAt: new Date(),
+      updatedAt: new Date()
     };
     const result = await users.insertOne(newUser);
 

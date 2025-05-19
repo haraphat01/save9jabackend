@@ -2,11 +2,11 @@ import React from 'react';
 import { AlertTriangle, MapPin, Shield, Mic, Battery, ActivitySquare, Mail, Clock, Phone, Users } from 'lucide-react';
 
 const FeatureCard = ({ icon: Icon, title, description }) => (
-  <div className="bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition-transform duration-200">
-    <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+  <div className="group bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+    <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
       <Icon size={24} className="text-green-600" />
     </div>
-    <h3 className="text-xl font-semibold text-green-600 mb-3">{title}</h3>
+    <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-green-600 transition-colors duration-300">{title}</h3>
     <p className="text-gray-600 leading-relaxed">{description}</p>
   </div>
 );
@@ -61,9 +61,13 @@ const Features = () => {
   ];
 
   return (
-    <section className="py-24 bg-gray-50" id="features">
+    <section className="py-24 bg-gradient-to-b from-gray-50 to-white" id="features">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
+          <div className="inline-flex items-center bg-green-100 rounded-full px-4 py-2 mb-6">
+            <Shield size={20} className="text-green-600 mr-2" />
+            <span className="text-green-800 text-sm font-medium">Why Choose SafeAlert</span>
+          </div>
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Why You Need SafeAlert
           </h2>
@@ -73,8 +77,8 @@ const Features = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+          <div className="bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+            <div className="w-12 h-12 bg-gradient-to-br from-red-100 to-red-200 rounded-lg flex items-center justify-center mb-4">
               <AlertTriangle size={24} className="text-red-600" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Immediate Response</h3>
@@ -83,8 +87,8 @@ const Features = () => {
             </p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+          <div className="bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mb-4">
               <Shield size={24} className="text-blue-600" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Peace of Mind</h3>
@@ -93,8 +97,8 @@ const Features = () => {
             </p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+          <div className="bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+            <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center mb-4">
               <Users size={24} className="text-green-600" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Family Safety</h3>
@@ -105,6 +109,10 @@ const Features = () => {
         </div>
 
         <div className="text-center mb-16">
+          <div className="inline-flex items-center bg-blue-100 rounded-full px-4 py-2 mb-6">
+            <Shield size={20} className="text-blue-600 mr-2" />
+            <span className="text-blue-800 text-sm font-medium">Comprehensive Protection</span>
+          </div>
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Comprehensive Safety Features
           </h2>

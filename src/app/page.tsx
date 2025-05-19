@@ -4,7 +4,6 @@ import Hero from '../app/components/Hero';
 import Features from '../app/components/Features';
 import Pricing from '../app/components/Pricing';
 import Download from '../app/components/Download';
-import About from '../app/components/About';
 import Footer from '../app/components/Footer';
 
 export default function Home() {
@@ -21,7 +20,6 @@ export default function Home() {
       <Features />
       <Pricing />
       <Download />
-      <About />
       <Footer />
     </>
   );
